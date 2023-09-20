@@ -1,0 +1,5 @@
+.phonebook {
+    display: inline-flex;
+    list-style: none;
+    gap: 10px;
+}
