@@ -6,7 +6,7 @@ const Person = ({ persons, search }) => {
         {persons.filter((person)=>{
           return search.toUpperCase() === '' ? person : person.name.toUpperCase().includes(search.toUpperCase())
         }).map(person => 
-        <div className='phonebook' key={person.name}>
+        <div className='phonebook' key={person.id}>
             <li>{person.name}</li>  
             <li>{person.number}</li>
         </div>
