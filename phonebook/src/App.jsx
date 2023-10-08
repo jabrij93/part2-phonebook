@@ -38,6 +38,7 @@ const App = () => {
 
   const addName = (event) => {
     event.preventDefault()
+
     const personObject = {
       name: newName,
       number: newNumber,
@@ -46,9 +47,14 @@ const App = () => {
     if (persons.some(person=>person.name === personObject.name)) {
       alert(`${newName} already exist in the phonebook`)
     } else {
-      setPersons(persons.concat(personObject))
-      setNewName('')
-      setNewNumber('')
+      axios
+        .post('http://localhost:3002/persons', personObject)
+        .then(response => {
+          console.log(response)
+          setPersons(persons.concat(response.data))
+          setNewName('')
+          setNewNumber('')
+      })
     }
   }
 
