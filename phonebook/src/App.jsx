@@ -63,7 +63,9 @@ const App = () => {
     const confirmDelete = window.confirm(`Do you want to delete ${person.name}?`);
     if (confirmDelete) {
       personService
+        // call the deletePerson method in personService.js corresponding to the URL
         .deletePerson(id)
+        // update all the persons in the list
         .then(() => {
           setPersons(persons.filter(person => person.id !== id));
         })
