@@ -38,49 +38,19 @@
       "id": 4
     },
     {
-      "name": "test123",
-      "number": "0123456789",
-      "id": 5
-    },
-    {
-      "name": "test222",
-      "number": "012345",
-      "id": 6
-    },
-    {
-      "name": "test555",
-      "number": "0123334321",
-      "id": 7
-    },
-    {
-      "name": "test666",
-      "number": "0134567890",
-      "id": 8
-    },
-    {
-      "name": "test777",
-      "number": "01512345678",
-      "id": 9
-    },
-    {
-      "name": "test888",
-      "number": "0123456111",
-      "id": 10
-    },
-    {
-      "name": "testtttt lagi ba",
-      "number": "123455678900",
-      "id": 11
-    },
-    {
-      "name": "test3333",
-      "number": "lagilagilagi",
-      "id": 12
-    },
-    {
       "name": "test be",
       "number": "01234442123",
       "id": 13
+    },
+    {
+      "name": "jabs",
+      "number": "0123456789",
+      "id": 14
+    },
+    {
+      "name": "testing123",
+      "number": "01233333333",
+      "id": 15
     }
   ]
 }
