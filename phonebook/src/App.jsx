@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import Person from './Components/Person'
+import Notification from './Components/Notification'
 import FilterName from './Components/FilterName'
 import AddNewPerson from './Components/AddNewPerson'
 import axios from 'axios'
@@ -10,6 +11,7 @@ const App = () => {
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [search, setSearch] = useState('')
+  const [notifications, setNotifications] = useState(null)
 
   useEffect(() => {
     console.log('effect')
@@ -57,9 +59,24 @@ const App = () => {
             setPersons(persons.map(person => person.id === id ? updatedPerson : person));
             setNewName('')
             setNewNumber('')
+            // Set notification for updated person
+            setNotifications(`Updated ${updatedPerson.name}'s number.`);
+            setTimeout(() => {
+              setNotifications(null);
+            }, 5000); // Clear notification after 5 seconds
           })
+          .catch(error => {
+            // Note: 'updatedPerson' is not accessible in this scope. You might need a different approach to handle the name
+            setNotifications(
+              `Unable to update phone number. This user has already been removed from the server.`
+            )
+            setTimeout(() => {
+              setNotifications(null)
+            }, 5000)
+          }) 
       }
     }
+    
 
     const existingPerson = persons.some(person=>person.name === personObject.name)
 
@@ -75,8 +92,21 @@ const App = () => {
           setPersons(persons.concat(returnedPerson))
           setNewName('')
           setNewNumber('')
-      })
-    }
+          // Set notification for new person
+          setNotifications(`Added ${returnedPerson.name}`);
+          setTimeout(() => {
+            setNotifications(null);
+          }, 5000); // Clear notification after 5 seconds
+        })
+        .catch(error => {
+          setNotifications(
+            `Error occured adding new person`
+          )
+          setTimeout(() => {
+            setNotifications(null)
+          }, 5000)
+        }) 
+      }
   }
 
   const handleDelete = (id) => {
@@ -93,6 +123,12 @@ const App = () => {
         .catch(error => {
           console.error('Error deleting person:', error);
           // Handle the error appropriately
+          setNotifications(
+            `An error occured. This user was already removed from server.`
+          )
+          setTimeout(() => {
+            setNotifications(null)
+          }, 5000)
         });
     }
   };
@@ -101,14 +137,16 @@ const App = () => {
     <div>
       <h2>Phonebook</h2>
       <FilterName handleSearchName={handleSearchName}/>
+      <Notification message={notifications}/>
 
       <h2>Add a new</h2>
-      <AddNewPerson addName={addName} handleNameChange={handleNameChange} newName={newName} handleNumberChange={handleNumberChange} newNumber={newNumber} />
+      <AddNewPerson addName={addName} handleNameChange={handleNameChange} newName={newName} handleNumberChange={handleNumberChange} newNumber={newNumber}/>
       
       <h2>Numbers</h2>
       <Person persons={persons} search={search} onDelete={handleDelete}/>
     </div>
   )
 }
+
 
 export default App

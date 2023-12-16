@@ -6,3 +6,4 @@ import './index.css'
 const persons = ['']
 
 ReactDOM.createRoot(document.getElementById('root')).render(<App persons={persons} />)
+    
