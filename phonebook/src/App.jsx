@@ -60,16 +60,14 @@ const App = () => {
             setNewName('')
             setNewNumber('')
             // Set notification for updated person
-            setNotifications(`Updated ${updatedPerson.name}'s number.`);
+            setNotifications({ message: `Updated ${updatedPerson.name}'s number.`, type: 'success' });
             setTimeout(() => {
               setNotifications(null);
             }, 5000); // Clear notification after 5 seconds
           })
           .catch(error => {
             // Note: 'updatedPerson' is not accessible in this scope. You might need a different approach to handle the name
-            setNotifications(
-              `Unable to update phone number. This user has already been removed from the server.`
-            )
+            setNotifications({ message: `An error occurred. This user was already removed from the server.`, type: 'error' });
             setTimeout(() => {
               setNotifications(null)
             }, 5000)
@@ -93,7 +91,7 @@ const App = () => {
           setNewName('')
           setNewNumber('')
           // Set notification for new person
-          setNotifications(`Added ${returnedPerson.name}`);
+          setNotifications({ message: `Added ${returnedPerson.name}'s number.`, type: 'success' });
           setTimeout(() => {
             setNotifications(null);
           }, 5000); // Clear notification after 5 seconds
@@ -119,13 +117,15 @@ const App = () => {
         // update all the persons in the list
         .then(() => {
           setPersons(persons.filter(person => person.id !== id));
+          setNotifications({ message: `Person's removed`, type: 'success' });
+          setTimeout(() => {
+            setNotifications(null);
+          }, 5000); // Clear notification after 5 seconds
         })
         .catch(error => {
           console.error('Error deleting person:', error);
           // Handle the error appropriately
-          setNotifications(
-            `An error occured. This user was already removed from server.`
-          )
+          setNotifications({ message: `An error occured. This user was already removed from server.`, type: 'error' })
           setTimeout(() => {
             setNotifications(null)
           }, 5000)
@@ -137,7 +137,7 @@ const App = () => {
     <div>
       <h2>Phonebook</h2>
       <FilterName handleSearchName={handleSearchName}/>
-      <Notification message={notifications}/>
+      <Notification message={notifications?.message} type={notifications?.type}/>
 
       <h2>Add a new</h2>
       <AddNewPerson addName={addName} handleNameChange={handleNameChange} newName={newName} handleNumberChange={handleNumberChange} newNumber={newNumber}/>
