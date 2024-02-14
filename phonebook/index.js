@@ -1,4 +1,5 @@
-const express = require('express')
+import express from 'express'
+
 const app = express()
 
 app.use(express.json())
@@ -30,4 +31,15 @@ let phonebook =
 app.get('/', (request, response) => {
     const allData = phonebook.map(data => data.name)
     response.send(`${allData}`)
+})
+
+app.get('/api/phonebook', (request, response) => {
+  response.json(phonebook)
+})
+
+
+
+const PORT = 3001
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`)
 })
