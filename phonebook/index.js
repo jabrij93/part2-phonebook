@@ -61,6 +61,7 @@ app.get('/api/phonebook/:id', (request, response) => {
   }
 })
 
+// DELETE person
 app.delete('/api/phonebook/:id', (request,response) => {
   const id = Number(request.params.id)
   phonebook = phonebook.find(person => {person.id === id})
