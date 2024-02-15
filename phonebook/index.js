@@ -1,6 +1,12 @@
 import express from 'express'
+//import moment from 'moment';
+
+// Import moment-timezone, which automatically extends moment
+import moment from 'moment-timezone';
+
 
 const app = express()
+
 
 app.use(express.json())
 
@@ -33,11 +39,20 @@ app.get('/', (request, response) => {
     response.send(`${allData}`)
 })
 
+app.get('/info', (request, response) => {
+  const allData = phonebook.map(data => data.id)
+  const convertToNumber = Math.max(...allData)
+
+  let currentDate = moment.tz('China/Beijing').format('dddd MMMM Do YYYY, h:mm:ss a') + " GMT" + moment.tz('China/Beijing').format('Z') + " (" + moment.tz('America/New_York').zoneAbbr() + ")";
+
+  // let currentDate = moment.tz('America/New_York').format('dddd MMMM Do YYYY, h:mm:ss a ZZ z');
+  // let currentDate = moment().format('MMMM Do YYYY, h:mm:ss a');
+  response.send(`Phonebook info has ${convertToNumber} people <br/> <br/> ${currentDate}`)
+})
+
 app.get('/api/phonebook', (request, response) => {
   response.json(phonebook)
 })
-
-
 
 const PORT = 3001
 app.listen(PORT, () => {
