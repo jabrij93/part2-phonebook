@@ -43,7 +43,7 @@ app.get('/info', (request, response) => {
   const allData = phonebook.map(data => data.id)
   const convertToNumber = Math.max(...allData)
 
-  let currentDate = moment.tz('China/Beijing').format('dddd MMMM Do YYYY, h:mm:ss a') + " GMT" + moment.tz('China/Beijing').format('Z') + " (" + moment.tz('America/New_York').zoneAbbr() + ")";
+  let currentDate = moment.tz('Asia/Shanghai').format('dddd MMMM Do YYYY, h:mm:ss a') + " GMT" + moment.tz('Asia/Shanghai').format('Z') + " (" + moment.tz('Asia/Shanghai').zoneAbbr() + ")";
 
   // let currentDate = moment.tz('America/New_York').format('dddd MMMM Do YYYY, h:mm:ss a ZZ z');
   // let currentDate = moment().format('MMMM Do YYYY, h:mm:ss a');
