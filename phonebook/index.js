@@ -4,10 +4,7 @@ import express from 'express'
 // Import moment-timezone, which automatically extends moment
 import moment from 'moment-timezone';
 
-
 const app = express()
-
-
 app.use(express.json())
 
 let phonebook = 
@@ -49,6 +46,19 @@ app.get('/info', (request, response) => {
 
 app.get('/api/phonebook', (request, response) => {
   response.json(phonebook)
+})
+
+app.get('/api/phonebook/:id', (request, response) => {
+  const id = Number(request.params.id)
+  const fromPhonebook = phonebook.find(person => {
+    person.id === id 
+  })
+  
+  if(fromPhonebook) {
+    return response.json(fromPhonebook[0])
+  } else {
+    return 'Resource not exist'
+  }
 })
 
 const PORT = 3001
