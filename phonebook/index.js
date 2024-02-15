@@ -44,9 +44,6 @@ app.get('/info', (request, response) => {
   const convertToNumber = Math.max(...allData)
 
   let currentDate = moment.tz('Asia/Shanghai').format('dddd MMMM Do YYYY, h:mm:ss a') + " GMT" + moment.tz('Asia/Shanghai').format('Z') + " (" + moment.tz('Asia/Shanghai').zoneAbbr() + ")";
-
-  // let currentDate = moment.tz('America/New_York').format('dddd MMMM Do YYYY, h:mm:ss a ZZ z');
-  // let currentDate = moment().format('MMMM Do YYYY, h:mm:ss a');
   response.send(`Phonebook info has ${convertToNumber} people <br/> <br/> ${currentDate}`)
 })
 
@@ -58,3 +55,5 @@ const PORT = 3001
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`)
 })
+
+// moment.tz('Asia/Shanghai').format('dddd MMMM Do YYYY, h:mm:ss a')
