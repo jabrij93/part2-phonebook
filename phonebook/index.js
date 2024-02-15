@@ -57,8 +57,14 @@ app.get('/api/phonebook/:id', (request, response) => {
   if (fromPhonebook) {
     return response.json(fromPhonebook)
   } else {
-    return 'Resource not found'
+    return response.json('Resource not found')
   }
+})
+
+app.delete('/api/phonebook/:id', (request,response) => {
+  const id = Number(request.params.id)
+  phonebook = phonebook.find(person => {person.id === id})
+  response.status(204).end();
 })
 
 const PORT = 3001
