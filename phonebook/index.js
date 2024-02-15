@@ -51,9 +51,14 @@ app.get('/api/phonebook', (request, response) => {
 app.get('/api/phonebook/:id', (request, response) => {
   const id = Number(request.params.id)
   const fromPhonebook = phonebook.find(person => {
-    person.id === id ? response.json(person) : response.json('Resource not found')
+    return person.id === id
   })
   
+  if (fromPhonebook) {
+    return response.json(fromPhonebook)
+  } else {
+    return 'Resource not found'
+  }
 })
 
 const PORT = 3001
