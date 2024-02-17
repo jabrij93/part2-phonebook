@@ -31,9 +31,15 @@ let phonebook =
     }
 ]
 
+
+
 app.get('/', (request, response) => {
+  
     const allData = phonebook.map(data => data.name)
-    response.send(`${allData}`)
+    
+    response.send(`${allData} <br/>`)
+
+  
 })
 
 app.get('/info', (request, response) => {
@@ -44,11 +50,13 @@ app.get('/info', (request, response) => {
   response.send(`Phonebook info has ${convertToNumber} people <br/> <br/> ${currentDate}`)
 })
 
-app.get('/api/phonebook', (request, response) => {
+// GET all person info
+app.get('/api/persons', (request, response) => {
   response.json(phonebook)
 })
 
-app.get('/api/phonebook/:id', (request, response) => {
+// GET specific people info
+app.get('/api/persons/:id', (request, response) => {
   const id = Number(request.params.id)
   const fromPhonebook = phonebook.find(person => {
     return person.id === id
@@ -61,8 +69,32 @@ app.get('/api/phonebook/:id', (request, response) => {
   }
 })
 
+// POST add new people
+app.post('/api/persons/', (request, response) => { 
+  const maxId = phonebook.map(person=>person.id)
+  const generateId = Math.max(...maxId) + 1
+  console.log(generateId)
+
+  const body = request.body
+
+  if (!body.name || !body.number) {
+    return response.status(400).json ({
+      error : 'missing content'
+    })
+  }
+
+  const person = {
+    name: body.name,
+    number: body.number || '',
+    id: generateId
+  }
+
+  phonebook = phonebook.concat(person)
+  response.json(phonebook)
+})
+
 // DELETE person
-app.delete('/api/phonebook/:id', (request,response) => {
+app.delete('/api/persons/:id', (request,response) => {
   const id = Number(request.params.id)
   phonebook = phonebook.find(person => {person.id === id})
   response.status(204).end();

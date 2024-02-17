@@ -1,9 +1,13 @@
-GET http://localhost:3001/api/phonebook/
+GET http://localhost:3001/api/persons/
 
 ###
 
-GET http://localhost:3001/api/phonebook/3
+GET http://localhost:3001/api/persons/3
 
 ###
 
-DELETE http://localhost:3001/api/phonebook/3
+DELETE http://localhost:3001/api/persons/2
+
+###
+
+POST http://localhost:3001/api/persons
