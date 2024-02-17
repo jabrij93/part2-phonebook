@@ -72,7 +72,7 @@ app.get('/api/persons/:id', (request, response) => {
 // POST add new people
 app.post('/api/persons/', (request, response) => { 
   const maxId = phonebook.map(person=>person.id)
-  const generateId = Math.max(...maxId) + 1
+  const generateId = phonebook.length > 0 ? Math.max(...maxId) + 1 : 0
   console.log(generateId)
 
   const body = request.body
@@ -80,6 +80,14 @@ app.post('/api/persons/', (request, response) => {
   if (!body.name || !body.number) {
     return response.status(400).json ({
       error : 'missing content'
+    })
+  }
+
+  const nameExist = phonebook.some(person=>person.name ===body.name) 
+  
+  if (nameExist){
+    return response.status(400).json({
+      error: 'name already exist. choose another name'
     })
   }
 
