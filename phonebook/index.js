@@ -7,7 +7,20 @@ import moment from 'moment-timezone';
 
 const app = express()
 app.use(express.json())
-app.use(morgan(':method :url :http-version :status (:response-time)'))
+
+// Define a custom token to log request body
+morgan.token('body', (req, res) => JSON.stringify(req.body));
+
+app.use(morgan(function (tokens, req, res) {
+  return [
+    tokens.method(req, res),
+    tokens.url(req, res),
+    tokens.status(req, res),
+    tokens.res(req, res, 'content-length', req.body), '-',
+    tokens['response-time'](req, res), 'ms',
+    tokens.body(req, res)
+  ].join(' ')
+}))
 
 let phonebook = 
 [
@@ -34,7 +47,6 @@ let phonebook =
 ]
 
 
-
 app.get('/', (request, response) => {
   
     const allData = phonebook.map(data => data.name)
@@ -54,6 +66,8 @@ app.get('/info', (request, response) => {
 
 // GET all person info
 app.get('/api/persons', (request, response) => {
+
+  console.log('Response:  ', response.json)
   response.json(phonebook)
 })
 
@@ -76,6 +90,7 @@ app.post('/api/persons/', (request, response) => {
   const maxId = phonebook.map(person=>person.id)
   const generateId = phonebook.length > 0 ? Math.max(...maxId) + 1 : 0
   console.log(generateId)
+
 
   const body = request.body
 
@@ -100,6 +115,7 @@ app.post('/api/persons/', (request, response) => {
   }
 
   phonebook = phonebook.concat(person)
+  console.log('Body:  ', request.body)
   response.json(phonebook)
 })
 
