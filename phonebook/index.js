@@ -1,11 +1,13 @@
 import express from 'express'
 //import moment from 'moment';
+import morgan from 'morgan'
 
 // Import moment-timezone, which automatically extends moment
 import moment from 'moment-timezone';
 
 const app = express()
 app.use(express.json())
+app.use(morgan(':method :url :http-version :status (:response-time)'))
 
 let phonebook = 
 [
