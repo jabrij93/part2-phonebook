@@ -78,7 +78,7 @@ app.get('/', (request, response) => {
 app.get('/info', (request, response) => {
   const allData = phonebook.map(data => data.id)
   const convertToNumber = Math.max(...allData)
-  let currentDate = moment.tz('Asia/Shanghai').format('dddd MMMM Do YYYY, h:mm:ss a') + " GMT" + moment.tz('Asia/Shanghai').format('Z') + " (" + moment.tz('Asia/Shanghai').zoneAbbr() + ")";
+  let currentDate = moment.tz('Asia/Kuala_Lumpur').format('dddd MMMM Do YYYY, h:mm:ss a') + " GMT" + moment.tz('Asia/Shanghai').format('Z') + " (" + moment.tz('Asia/Shanghai').zoneAbbr() + ")";
   response.send(`Phonebook info has ${convertToNumber} people <br/> <br/> ${currentDate}`)
 })
 
@@ -90,7 +90,7 @@ app.get('/api/persons', (request, response) => {
 
 // GET specific people info
 app.get('/api/persons/:id', (request, response) => {
-  console.log("request", request)
+  console.log("request params", request.params)
   const id = Number(request.params.id)
   const fromPhonebook = phonebook.find(person => {
     return person.id === id
@@ -117,11 +117,11 @@ app.post('/api/persons/', (request, response) => {
     })
   }
 
-  const nameExist = phonebook.some(person=>person.name ===body.name) 
+  const nameExist = phonebook.some(person=>person.name === body.name) 
   
   if (nameExist){
     return response.status(400).json({
-      error: 'name already exist. choose another name'
+      error: 'name must be unique'
     })
   }
 
