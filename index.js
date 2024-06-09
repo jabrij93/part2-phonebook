@@ -68,16 +68,6 @@ let phonebook =
 
 app.get('/', (request, response) => {
   response.json(phonebook)
-    // const allData = phonebook.map(data => data.name)
-    // const allData = phonebook.map(data => 
-    //   { return `
-    //     <div> 
-    //       <p> Id : ${data.id} </p>
-    //       <p> Name : ${data.name} </p>
-    //       <p> Phonenumber : ${data.number} </p>
-    //     </div> 
-    //     <br/>`}).join()
-    // response.send(`${allData} <br/>`)
 })
 
 
