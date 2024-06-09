@@ -63,6 +63,11 @@ let phonebook =
       "id": 4,
       "name": "Mary Poppendieck", 
       "number": "39-23-6423122"
+    },
+    { 
+      "id": 5,
+      "name": "TEST DEPLOY SCRIPT", 
+      "number": "55-55-4321321"
     }
 ]
 
