@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "nodemon index.js",
     "dev2": "vite",
+    "start": "node index.js",
     "build": "vite build",
     "build:ui": "rm -rf dist && cd ../../part2-phonebook-frontend && npm run build && cp -r dist ../part2-phonebook-backend/part2-phonebook-backend",
     "deploy:full": "npm run build:ui && git add . && git commit -m uibuild && git push",
