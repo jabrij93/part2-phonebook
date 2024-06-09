@@ -66,14 +66,9 @@ let phonebook =
     },
     { 
       "id": 5,
-      "name": "TEST DEPLOY SCRIPT", 
-      "number": "55-55-4321321"
+      "name": "EXERCISE 3.9-3.11 COMPLETED", 
+      "number": "99-88-7754432"
     },
-    { 
-      "id": 6,
-      "name": "TEST SCRIPT2", 
-      "number": "4321321312"
-    }
 ]
 
 app.get('/', (request, response) => {
