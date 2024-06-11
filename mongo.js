@@ -5,23 +5,10 @@ import dotenv from 'dotenv';
 // Load environment variables from .env file
 dotenv.config();
 
-
-// const mongoose = require('mongoose')
-
-if (process.argv.length<5) {
-  console.log('Usage: node mongo.js <password> <name> <number>');
-  process.exit(1)
-}
-
 const password = process.argv[2]
-const name = process.argv[3];
-const number = process.argv[4];
 
 // Replace placeholder with the actual password
 const url = process.env.MONGODB_URI.replace('<password>', password);
-
-// const url =
-//   `mongodb+srv://jabrijuhinin93:54264316426153jJ%40@cluster0.5brgeat.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`
 
 mongoose.set('strictQuery',false)
 
@@ -34,15 +21,29 @@ const personSchema = new mongoose.Schema({
 
 const Person = mongoose.model('Person', personSchema)
 
-// let name = 'Mary Poppendieck'
-// let number2 = 39236423122
+if (process.argv.length === 3) {
+    console.log('test Person', Person);
+    console.log('phonebook :' );
+    Person.find({}).then(result => {
+      console.log('phonebook:');
+      result.map(result=> {
+          console.log(`${result.name} ${result.number}`)
+      })
+      mongoose.connection.close();  
+    })
+    
+} else if (process.argv.length === 5) {
+    const name = process.argv[3];
+    const number = process.argv[4];
 
-const person = new Person({
-  name: `${name}`,
-  number: `${number}`,
-})
+    const person = new Person({
+        name: `${name}`,
+        number: `${number}`,
+      })
 
-person.save().then(result => {
-  console.log(`added ${name} number ${number} to phonebook`)
-  mongoose.connection.close()
-})
+    person.save()
+        .then(result => {
+            console.log(`added ${name} number ${number} to phonebook`)
+            mongoose.connection.close()
+        })
+}
