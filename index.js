@@ -247,6 +247,31 @@ app.delete('/api/persons/:id', (request,response, next) => {
   // Delete person before MONGO DB
 })
 
+// Error handler middleware
+// Error handler middleware
+const unknownEndpoint = (request, response) => {
+  response.status(404).send({ error: 'unknown endpoint' })
+}
+
+// handler of requests with unknown endpoint
+app.use(unknownEndpoint)
+
+const errorHandler = (error, request, response, next) => {
+  console.error(error.message)
+
+  if (error.name === 'CastError') {
+    return response.status(400).send({ error: 'malformatted id' })
+  } 
+
+  next(error)
+}
+
+// this has to be the last loaded middleware, also all the routes should be registered before this!
+app.use(errorHandler)
+
+// Error handler middleware
+// Error handler middleware
+
 // const PORT = process.env.PORT || 3001
 const PORT = process.env.PORT || 3001
 app.listen(PORT, () => {
