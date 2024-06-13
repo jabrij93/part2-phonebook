@@ -1,6 +1,8 @@
 import express from 'express'
 //import moment from 'moment';
+
 import morgan from 'morgan'
+import Person from './models/person.js';
 
 // Import moment-timezone, which automatically extends moment
 import moment from 'moment-timezone';
@@ -72,7 +74,10 @@ let phonebook =
 ]
 
 app.get('/', (request, response) => {
-  response.json(phonebook)
+  Person.find({}).then(person=>{
+    response.json(person)
+  })
+  // response.json(phonebook)
 })
 
 
@@ -99,8 +104,9 @@ app.get('/info', (request, response) => {
 
 // GET all person info
 app.get('/api/persons', (request, response) => {
-  console.log('Response:  ', response.json)
-  response.json(phonebook)
+  Person.find({}).then(person => {
+    response.json(person)
+  })
 })
 
 // GET specific people info
