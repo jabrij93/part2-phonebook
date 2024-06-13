@@ -166,23 +166,22 @@ app.post('/api/persons/', async (request, response) => {
   }
 
   try {
-    const persons = await Person.find({});
-    const nameExist = persons.some(person=>person.name === body.name)
+    const person = await Person.findOne({ name: body.name });
 
-    if (nameExist) {
-      return response.status(400).json({
-        error: 'name must be unique'
+    if (person) {
+      // Person with the name exists, update their number
+      person.number = body.number;
+      const updatedPerson = await person.save();
+      return response.json(updatedPerson);
+    } else {
+      
+      const newPerson = new Person({
+        name: body.name,
+        number: body.number || '',
       })
+      newPerson.save().then(personSaved => {
+      response.json(personSaved)})
     }
-
-    const person = new Person({
-      name: body.name,
-      number: body.number || '',
-    })
-
-    person.save().then(personSaved => {
-      response.json(personSaved)
-    })
   } catch (error) {
     console.error("Error fetching persons:", error);
     response.status(500).send('Internal Server Error');
