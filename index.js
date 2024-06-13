@@ -212,6 +212,22 @@ app.post('/api/persons/', async (request, response) => {
   // response.json(phonebook)
 })
 
+// Modify/edit person with Mongo DB
+app.put('/api/persons/:id', (request, response, next) => {
+  const body = request.body
+
+  const person = {
+    "name": body.name,
+    "number": body.number,
+  }
+
+  Person.findByIdAndUpdate(request.params.id, person, {new: true})
+    .then(updatedNote => {
+      response.json(updatedNote)
+    })
+    .catch(error=>next(error))
+})
+
 // DELETE person
 app.delete('/api/persons/:id', (request,response, next) => {
   // Delete person using MONGO DB
