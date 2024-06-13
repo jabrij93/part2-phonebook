@@ -149,10 +149,8 @@ app.get('/api/persons/:id', (request, response) => {
 })
 
 // POST add new people
-app.post('/api/persons/', (request, response) => {  
-  const maxId = phonebook.map(person=>person.id)
-  const generateId = phonebook.length > 0 ? Math.max(...maxId) + 1 : 0
-  console.log(generateId)
+app.post('/api/persons/', async (request, response) => {  
+  // ## ADD NEW PERSON USING MONGO DB
 
   const body = request.body
 
@@ -162,23 +160,51 @@ app.post('/api/persons/', (request, response) => {
     })
   }
 
-  const nameExist = phonebook.some(person=>person.name === body.name) 
-  
-  if (nameExist){
-    return response.status(400).json({
-      error: 'name must be unique'
+  try {
+    const persons = await Person.find({});
+    const nameExist = persons.some(person=>person.name === body.name)
+
+    if (nameExist) {
+      return response.status(400).json({
+        error: 'name must be unique'
+      })
+    }
+
+    const person = new Person({
+      name: body.name,
+      number: body.number || '',
     })
+
+    person.save().then(personSaved => {
+      response.json(personSaved)
+    })
+  } catch (error) {
+    console.error("Error fetching persons:", error);
+    response.status(500).send('Internal Server Error');
   }
 
-  const person = {
-    name: body.name,
-    number: body.number || '',
-    id: generateId
-  }
+  // ## ADD NEW PERSON BEFORE MONGO DB
+  // ## ADD NEW PERSON BEFORE MONGO DB
+  // const maxId = phonebook.map(person=>person.id)
+  // const generateId = phonebook.length > 0 ? Math.max(...maxId) + 1 : 0
+  // console.log(generateId)
+  // const nameExist = phonebook.some(person=>person.name === body.name) 
+  
+  // if (nameExist){
+  //   return response.status(400).json({
+  //     error: 'name must be unique'
+  //   })
+  // }
 
-  phonebook = phonebook.concat(person)
-  console.log('Body:  ', request.body)
-  response.json(phonebook)
+  // const person = {
+  //   name: body.name,
+  //   number: body.number || '',
+  //   id: generateId
+  // }
+
+  // phonebook = phonebook.concat(person)
+  // console.log('Body:  ', request.body)
+  // response.json(phonebook)
 })
 
 // DELETE person
