@@ -72,6 +72,11 @@ let phonebook =
       "name": "EXERCISE 3.9-3.11 COMPLETED", 
       "number": "99-88-7754432"
     },
+    { 
+      "id": 6,
+      "name": "EXERCISE 3.13-3.14 COMPLETED", 
+      "number": "99-88-7754432"
+    },
 ]
 
 app.get('/', (request, response) => {
