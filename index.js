@@ -77,6 +77,11 @@ let phonebook =
       "name": "EXERCISE 3.13-3.14 COMPLETED", 
       "number": "99-88-7754432"
     },
+    { 
+      "id": 7,
+      "name": "EXERCISE 3.15-3.18 COMPLETED", 
+      "number": "99-88-7754432"
+    },
 ]
 
 app.get('/', (request, response) => {
@@ -174,7 +179,7 @@ app.post('/api/persons/', async (request, response) => {
       const updatedPerson = await person.save();
       return response.json(updatedPerson);
     } else {
-      
+
       const newPerson = new Person({
         name: body.name,
         number: body.number || '',
