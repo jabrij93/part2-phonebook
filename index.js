@@ -2,6 +2,7 @@ import express from 'express'
 //import moment from 'moment';
 
 import morgan from 'morgan'
+import mongoose from 'mongoose'
 import Person from './models/person.js';
 
 // Import moment-timezone, which automatically extends moment
@@ -112,17 +113,39 @@ app.get('/api/persons', (request, response) => {
 
 // GET specific people info
 app.get('/api/persons/:id', (request, response) => {
-  console.log("request params", request.params)
-  const id = Number(request.params.id)
-  const fromPhonebook = phonebook.find(person => {
-    return person.id === id
-  })
-  
-  if (fromPhonebook) {
-    return response.json(fromPhonebook)
-  } else {
-    return response.json('Resource not found')
+  // Find person by ID using MongoDB
+  const id = request.params.id;
+
+  // Check if the ID is a valid MongoDB ObjectId
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return response.status(400).json({ error: 'Invalid ID format' });
   }
+
+  // Find person by ID using MongoDB
+  Person.findById(id)
+    .then(person => {
+      if (person) {
+        response.json(person);
+      } else {
+        response.status(404).json({ error: 'The following resource is not found' });
+      }
+    })
+    .catch(error => {
+      // Handle any other errors
+      response.status(500).json({ error: 'Internal server error' });
+    });
+
+  // Find specific person by ID BEFORE MongoDB
+  // const id = Number(request.params.id)
+  // const fromPhonebook = phonebook.find(person => {
+  //   return person.id === id
+  // })
+  
+  // if (fromPhonebook) {
+  //   return response.json(fromPhonebook)
+  // } else {
+  //   return response.json('Resource not found')
+  // }
 })
 
 // POST add new people
