@@ -213,10 +213,22 @@ app.post('/api/persons/', async (request, response) => {
 })
 
 // DELETE person
-app.delete('/api/persons/:id', (request,response) => {
-  const id = Number(request.params.id)
-  phonebook = phonebook.find(person => {person.id === id})
-  response.status(204).end();
+app.delete('/api/persons/:id', (request,response, next) => {
+  // Delete person using MONGO DB
+  Person.findByIdAndDelete(request.params.id)
+    .then(result=> {
+      response.status(204).end()
+    }).catch(error => next(error))
+
+  // Delete person before MONGO DB
+  // Delete person before MONGO DB
+
+  // const id = Number(request.params.id)
+  // phonebook = phonebook.find(person => {person.id === id})
+  // response.status(204).end();
+
+  // Delete person before MONGO DB
+  // Delete person before MONGO DB
 })
 
 // const PORT = process.env.PORT || 3001
