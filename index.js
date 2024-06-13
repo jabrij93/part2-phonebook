@@ -83,23 +83,24 @@ app.get('/', (request, response) => {
 
 app.get('/persons', (request, response) => {
   response.json(phonebook)
-    // const allData = phonebook.map(data => data.name)
-    // const allData = phonebook.map(data => 
-    //   { return `
-    //     <div> 
-    //       <p> Id : ${data.id} </p>
-    //       <p> Name : ${data.name} </p>
-    //       <p> Phonenumber : ${data.number} </p>
-    //     </div> 
-    //     <br/>`}).join()
-    // response.send(`${allData} <br/>`)
 })
 
-app.get('/info', (request, response) => {
-  const allData = phonebook.map(data => data.id)
-  const convertToNumber = Math.max(...allData)
+app.get('/info', async (request, response) => {
+  // Before MongoDB - can directly use/call the 'persons' object
+  // const allData = persons.map(person => person)
+  // const convertToNumber = Math.max(...allData)
+
+  // Using MongoDB, NOTE : must use async, include try/catch block, don't forget 'await' and call the module - Person - in this case
+  try { 
+  const persons = await Person.find({});
+  const personCount = persons.length;
+  
   let currentDate = moment.tz('Asia/Kuala_Lumpur').format('dddd MMMM Do YYYY, h:mm:ss a') + " GMT" + moment.tz('Asia/Shanghai').format('Z') + " (" + moment.tz('Asia/Shanghai').zoneAbbr() + ")";
-  response.send(`Phonebook info has ${convertToNumber} people <br/> <br/> ${currentDate}`)
+  response.send(`Phonebook info has ${personCount} people <br/> <br/> ${currentDate}`)
+  } catch (error) {
+    console.error("Error fetching persons:", error);
+    response.status(500).send('Internal Server Error');
+  }
 })
 
 // GET all person info
