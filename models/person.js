@@ -22,13 +22,29 @@ mongoose.connect(url)
     console.log("error connecting to MongoDB", error.message)
   })
 
+// Phone Number Validator
+const phoneNumberValidator = {
+    validator: function(v) {
+      // Check if the phone number matches the required pattern
+      return /^(\d{2,3})-(\d+)$/.test(v);
+    },
+    message: props => `${props.value} is not a valid phone number!`
+};
+
 const personSchema = new mongoose.Schema({
   name: 
-  { type: String, 
+  { 
+    type: String, 
     minLength: 3, 
-    required: true
+    required: [true, 'Name required']
   },
-  number: String,
+  number: 
+  { 
+    type: String, 
+    minLength: 8, 
+    required: [true, 'Phone number required'],
+    validate: phoneNumberValidator
+  },
 })
 
 const Person = mongoose.model('Person', personSchema)
