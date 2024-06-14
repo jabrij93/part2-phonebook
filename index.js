@@ -158,7 +158,7 @@ app.get('/api/persons/:id', (request, response) => {
 })
 
 // POST add new people
-app.post('/api/persons/', async (request, response) => {  
+app.post('/api/persons/', async (request, response, next) => {  
   // ## ADD NEW PERSON USING MONGO DB
 
   const body = request.body
@@ -185,6 +185,7 @@ app.post('/api/persons/', async (request, response) => {
       })
       newPerson.save().then(personSaved => {
       response.json(personSaved)})
+      .catch(error =>next(error))
     }
   } catch (error) {
     console.error("Error fetching persons:", error);
@@ -264,7 +265,9 @@ const errorHandler = (error, request, response, next) => {
 
   if (error.name === 'CastError') {
     return response.status(400).send({ error: 'malformatted id' })
-  } 
+  } else if (error.name === 'ValidationError') {
+    return response.status(400).json({ error: error.message })
+  }
 
   next(error)
 }
