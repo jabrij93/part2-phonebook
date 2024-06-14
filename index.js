@@ -68,17 +68,17 @@ let phonebook =
     },
     { 
       "id": 5,
-      "name": "EXERCISE 3.9-3.11 COMPLETED", 
-      "number": "99-88-7754432"
-    },
-    { 
-      "id": 6,
       "name": "EXERCISE 3.13-3.14 COMPLETED", 
       "number": "99-88-7754432"
     },
     { 
-      "id": 7,
+      "id": 6,
       "name": "EXERCISE 3.15-3.18 COMPLETED", 
+      "number": "99-88-7754432"
+    },
+    { 
+      "id": 7,
+      "name": "EXERCISE 3.19-3.21 COMPLETED", 
       "number": "99-88-7754432"
     },
 ]
