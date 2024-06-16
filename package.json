@@ -2,6 +2,7 @@
   "name": "phonebook-backend",
   "private": true,
   "version": "0.0.0",
+  "type": "module",
   "scripts": {
     "dev": "nodemon index.js",
     "dev2": "vite",
